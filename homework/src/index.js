@@ -41,7 +41,7 @@
       let newArray = [];
       let forkArray = [];
       let languageArray = [];
-      let newURLArray = [];
+      let htmlArray = [];
       let contributorsArray = [];
       for (let i = 0; i < data.length; i++){
         newArray.push(data[i].name);
@@ -50,8 +50,8 @@
         languageArray.push(data[i].language);
         contributorsArray.push(data[i].contributors_url);
         contributorsArray.sort();
-        newURLArray.push(data[i].html_url);
-        newURLArray.sort();
+        htmlArray.push(data[i].html_url);
+        htmlArray.sort();
       }
    
     let app = document.getElementById('root');   
@@ -66,6 +66,8 @@
     const contributorsCard = createAndAppend('div', contributorsContainer, {text: "Contributors to this Repository", class: 'card'});
     const contributorsUl = createAndAppend('ul', contributorsCard, {id: 'contributorsUl'});
   
+   
+    
     data.forEach((repo) => {  
       for (let i = 0; i < newArray.length; i++) {
         createAndAppend('option', selectList, {id: "myOption", value: i, text: newArray[i]});
@@ -83,10 +85,10 @@
 
     selectList.onchange = function(selectedIndex){
       createAndAppend('li', ul, { text: "Repository: " + newArray[this.selectedIndex], class: 'nameInContainer', function: removeNodes()});
+      createAndAppend('a', ul, { text: htmlArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
       createAndAppend('li', ul, { text: "Number of Forks: " + forkArray[this.selectedIndex], class: 'forksInContainer'});
       createAndAppend('li', ul, { text: "Language: " + languageArray[this.selectedIndex], class: 'languageInContainer'});
-      createAndAppend('li', contributorsUl, { text: newURLArray[this.selectedIndex], class: 'contributorsInContainer'});
-
+      createAndAppend('li', contributorsUl, { text: contributorsArray[this.selectedIndex], class: 'contributorsInContainer'});
       }
 
     });
