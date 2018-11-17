@@ -1,6 +1,17 @@
 .alert-error {
     color: red;
+    background-color:black;
+    font-size: 4rem;
 }
+img{
+  border: 1px solid #ddd; 
+  border-radius: 4px; 
+  margin: 10px; 
+  padding: 25px;
+  width: 150px; 
+  float: center;
+}
+
 
 .title{
     color: white;
@@ -40,7 +51,9 @@
     margin: 1rem;
     border: 2px solid gray;
     background-color: darkslateblue;
-
+  }
+  .card:hover {
+    background-color: pink;
   }
 
   .subtitle {
@@ -54,11 +67,28 @@
     background-color: white;
     color: black;
   }
+  #mySelect:hover {
+    background-color: pink;
+    outline-color: white;
+  }
+  
+  #link {
+    font-size: 20px;
+    text-align: center;
+  }
+  .badge{
+    font-size: 20px;
+    text-align: center;
+  }
 
   #myUl{
     list-style-type: none;
     font-size: 1.5rem;
     }
+
+  #myUl:hover {
+    background-color: pink;
+  }
     
   #contributorsUl{
     list-style-type: none;

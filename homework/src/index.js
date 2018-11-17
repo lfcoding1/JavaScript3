@@ -30,7 +30,7 @@
     });
     return elem;
   }
-  
+
   
   function main(url) {
     while (root.firstChild) {
@@ -38,7 +38,10 @@
     }
    
     fetchJSON( HYF_REPOS_URL, (err, data) => {
-      let newArray = [];
+      if (err) {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+      }
+      const newArray = [];
       let forkArray = [];
       let languageArray = [];
       let descriptionArray = [];
@@ -89,26 +92,39 @@
         } //end removeNodes
         
       selectList.onchange = function(selectedIndex){
-          let RepoName = createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
-          createAndAppend('a', RepoName, { text: newArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
+          let repoName = createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
+          createAndAppend('a', repoName, { text: newArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
           createAndAppend('li', ul, {text: "Description: " + descriptionArray[this.selectedIndex], class: 'descriptionInContainer'});
           createAndAppend('li', ul, { text: "Number of Forks: " + forkArray[this.selectedIndex], class: 'forksInContainer'});
           createAndAppend('li', ul, { text: "Language: " + languageArray[this.selectedIndex], class: 'languageInContainer'});
           createAndAppend('li', ul, {text: "Updated at: " + updatedAt[this.selectedIndex], id: 'updatedAtInContainer'})
-          createAndAppend('li', contributorsUl, { text: contributorsArray[this.selectedIndex], class: 'contributorsInContainer'});
-          }
-        });
+          fetchJSON('https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors', (err, data) => {
+            let getName = [];
+            let getLink = [];  
+            let getBadge = [];
+            for (let i = 0; i < data.length; i++){
+              getName.push(data[i].avatar_url);
+              getLink.push(data[i].html_url);
+              getBadge.push(data[i].contributions);
+
+              let imageLink = createAndAppend('li', contributorsUl, {})
+              let contributorName = createAndAppend('img', imageLink, {src: data[i].avatar_url});
+              let contributorLink = createAndAppend('a', imageLink, {text: "click here to go to this contributor ", target: "_blank", href: data[i].html_url, id: 'link'});
+              let contributorBadge = createAndAppend('li', imageLink, {text:"Contributions: " + data[i].contributions, class: 'badge'});
+            } //end for
+            data.forEach((repo) => {  
+          });//end for each
+          }); //end fetchJSON
+
+          }// end of onchange
+        }); //end of Fetch
+       
+          
     
-    /*
-    fetchJSON( theContributors_URL, (err, data) => {
-      let theContributorsUrl = [];
-      for (let i = 0; i < data.length; i++){
-      }
-    });*/
+   
     }
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
-  const theContributors_URL = 'https://api.github.com/repos/HackYourFuture/contributors';
   window.onload = () => main(HYF_REPOS_URL);
-  window.onload = () => main(theContributors_URL);
+
 }
