@@ -10,6 +10,7 @@ img{
   padding: 25px;
   width: 150px; 
   float: center;
+
 }
 
 
@@ -74,11 +75,11 @@ img{
   
   #link {
     font-size: 20px;
-    text-align: center;
+    text-align: left;
   }
   .badge{
     font-size: 20px;
-    text-align: center;
+    
   }
 
   #myUl{

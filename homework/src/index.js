@@ -102,14 +102,16 @@
             let getName = [];
             let getLink = [];  
             let getBadge = [];
+            let login = [];
             for (let i = 0; i < data.length; i++){
               getName.push(data[i].avatar_url);
               getLink.push(data[i].html_url);
               getBadge.push(data[i].contributions);
+              login.push(data[i].login);
 
               let imageLink = createAndAppend('li', contributorsUl, {})
               let contributorName = createAndAppend('img', imageLink, {src: data[i].avatar_url});
-              let contributorLink = createAndAppend('a', imageLink, {text: "click here to go to this contributor ", target: "_blank", href: data[i].html_url, id: 'link'});
+              let contributorLink = createAndAppend('a', imageLink, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
               let contributorBadge = createAndAppend('li', imageLink, {text:"Contributions: " + data[i].contributions, class: 'badge'});
             } //end for
             data.forEach((repo) => {  
