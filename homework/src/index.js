@@ -42,6 +42,7 @@
       let forkArray = [];
       let languageArray = [];
       let descriptionArray = [];
+      let updatedAt = [];
       let htmlArray = [];
       let contributorsArray = [];
       for (let i = 0; i < data.length; i++){
@@ -50,11 +51,13 @@
           descriptionArray.push(data[i].description);
           forkArray.push(data[i].forks);
           languageArray.push(data[i].language);
+          updatedAt.push(data[i].updated_at);
           contributorsArray.push(data[i].contributors_url);
           contributorsArray.sort();
           htmlArray.push(data[i].html_url);
           htmlArray.sort(); 
        }
+       
          
       let app = document.getElementById('root');   
       const header = createAndAppend('h1', app, { text: "Hack Your Future Repositories", class: 'title' });
@@ -83,22 +86,23 @@
             while (contributorsUl.hasChildNodes()) {
                 contributorsUl.removeChild(contributorsUl.firstChild);
           }
-        }
-
+        } //end removeNodes
+        
       selectList.onchange = function(selectedIndex){
           let RepoName = createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
           createAndAppend('a', RepoName, { text: newArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
           createAndAppend('li', ul, {text: "Description: " + descriptionArray[this.selectedIndex], class: 'descriptionInContainer'});
           createAndAppend('li', ul, { text: "Number of Forks: " + forkArray[this.selectedIndex], class: 'forksInContainer'});
           createAndAppend('li', ul, { text: "Language: " + languageArray[this.selectedIndex], class: 'languageInContainer'});
+          createAndAppend('li', ul, {text: "Updated at: " + updatedAt[this.selectedIndex], id: 'updatedAtInContainer'})
           createAndAppend('li', contributorsUl, { text: contributorsArray[this.selectedIndex], class: 'contributorsInContainer'});
           }
         });
+    
     /*
     fetchJSON( theContributors_URL, (err, data) => {
       let theContributorsUrl = [];
       for (let i = 0; i < data.length; i++){
-
       }
     });*/
     }
