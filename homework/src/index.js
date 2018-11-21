@@ -30,8 +30,7 @@
     });
     return elem;
   }
-
-  
+      
   function main(url) {
     while (root.firstChild) {
       root.removeChild(root.firstChild);
@@ -41,40 +40,47 @@
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
       }
-      const newArray = [];
+      let newArray = [];
       let forkArray = [];
       let languageArray = [];
       let descriptionArray = [];
       let updatedAt = [];
       let htmlArray = [];
-      let contributorsArray = [];
+      data.sort((a, b) => (a.name).localeCompare(b.name));
+      
+      
       for (let i = 0; i < data.length; i++){
           newArray.push(data[i].name);
-          newArray.sort();
           descriptionArray.push(data[i].description);
           forkArray.push(data[i].forks);
           languageArray.push(data[i].language);
           updatedAt.push(data[i].updated_at);
-          contributorsArray.push(data[i].contributors_url);
-          contributorsArray.sort();
-          htmlArray.push(data[i].html_url);
-          htmlArray.sort(); 
+          htmlArray.push(data[i].html_url); 
+          var date =  new Date ((data[i].updated_at));
+          date = date.toUTCString();
        }
        
          
-      let app = document.getElementById('root');   
-      const header = createAndAppend('h1', app, { text: "Hack Your Future Repositories", class: 'title' });
-      const subHeader = createAndAppend('h3', app, { text: "Select a repository:  ", class: 'subtitle'});
-      const selectList = createAndAppend('select', app, { text: 'Select a Repo', id: "mySelect" });
-      const container = createAndAppend('div', app, {class: 'container'});
-      const card = createAndAppend('div', container, {text: "Information about this repository: ", class: 'card'});
+      const root = document.getElementById('root');   
+      createAndAppend('h1', root, { text: "Hack Your Future Repositories", class: 'title' });
+      createAndAppend('h3', root, { text: "Select a repository:  ", class: 'subtitle'});
+      const selectList = createAndAppend('select', root, {id: "mySelect" });
+      const headerDiv = createAndAppend('div', root, {class: 'headerdiv'});
+      createAndAppend('h3', headerDiv, { text: "Repository Information", class: 'subtitle', id: 'repoHeader' });
+      createAndAppend('h3', headerDiv, { text: "Contributors", class: 'subtitle', id:'contributorHeader' });
+      const container = createAndAppend('div', root, {class: 'container'});
+      const card = createAndAppend('div', container, { class: 'card'});
       const ul = createAndAppend('ul', card, {id: "myUl", });
-      const contributorsheader = createAndAppend('h1', root, { text: "Contributors", class: 'title' });
-      const contributorsContainer = createAndAppend('div', root, { class: 'container'})
-      const contributorsCard = createAndAppend('div', contributorsContainer, {text: "Contributors to this Repository", class: 'card'});
+      const contributorsCard = createAndAppend('div', container, {class: 'card'});
       const contributorsUl = createAndAppend('ul', contributorsCard, {id: 'contributorsUl'});
-  
-   
+      const Index0Name = createAndAppend ('li', ul, {text: "Repository: ", class: 'nameInContainer'});
+      const Index0Link = createAndAppend ('a', Index0Name, {text: newArray[0], target: "_blank", href: htmlArray[0]});
+      const Index0Description = createAndAppend('li', ul, {text: "Description: " + descriptionArray[0], class:"descriptionInContainer"});
+      const Index0Fork = createAndAppend ('li', ul, {text: "Number of Forks: " + forkArray[0], class: 'forksInContainer'});
+      const Index0Language = createAndAppend ('li', ul, {text: "Language: "  + languageArray[0], class: 'updatedAtInContainer'});
+      const Index0UpdatedAt = createAndAppend ('li', ul, {text: "Updated at: " + date, class: 'updatedAtInContainer'})
+    
+     
     
       data.forEach((repo) => {  
         for (let i = 0; i < newArray.length; i++) {
@@ -90,41 +96,30 @@
                 contributorsUl.removeChild(contributorsUl.firstChild);
           }
         } //end removeNodes
-        
+      
       selectList.onchange = function(selectedIndex){
-          let repoName = createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
-          createAndAppend('a', repoName, { text: newArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
-          createAndAppend('li', ul, {text: "Description: " + descriptionArray[this.selectedIndex], class: 'descriptionInContainer'});
-          createAndAppend('li', ul, { text: "Number of Forks: " + forkArray[this.selectedIndex], class: 'forksInContainer'});
-          createAndAppend('li', ul, { text: "Language: " + languageArray[this.selectedIndex], class: 'languageInContainer'});
-          createAndAppend('li', ul, {text: "Updated at: " + updatedAt[this.selectedIndex], id: 'updatedAtInContainer'})
-          fetchJSON('https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors', (err, data) => {
-            let getName = [];
-            let getLink = [];  
-            let getBadge = [];
-            let login = [];
-            for (let i = 0; i < data.length; i++){
-              getName.push(data[i].avatar_url);
-              getLink.push(data[i].html_url);
-              getBadge.push(data[i].contributions);
-              login.push(data[i].login);
-
+        fetchJSON('https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors', (err, data) => {  
+            for (let i = 0; i < data.length; i++){          
               let imageLink = createAndAppend('li', contributorsUl, {})
-              let contributorName = createAndAppend('img', imageLink, {src: data[i].avatar_url});
+              let contributorName = createAndAppend('img', imageLink, {src: data[i].avatar_url, class: 'imageSrc'});
               let contributorLink = createAndAppend('a', imageLink, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
               let contributorBadge = createAndAppend('li', imageLink, {text:"Contributions: " + data[i].contributions, class: 'badge'});
             } //end for
-            data.forEach((repo) => {  
-          });//end for each
           }); //end fetchJSON
+        let repoName = createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
+        createAndAppend('a', repoName, { text: newArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
+        createAndAppend('li', ul, {text: "Description: " + descriptionArray[this.selectedIndex], class: 'descriptionInContainer'});
+        createAndAppend('li', ul, { text: "Number of Forks: " + forkArray[this.selectedIndex], class: 'forksInContainer'});
+        createAndAppend('li', ul, { text: "Language: " + languageArray[this.selectedIndex], class: 'languageInContainer'});
+        let dates = new Date (updatedAt[this.selectedIndex]);
+        dates = dates.toUTCString();
+        createAndAppend('li', ul, {text: "Updated at: " + dates, class: 'updatedAtInContainer'});
 
-          }// end of onchange
-        }); //end of Fetch
-       
-          
+      }// end of onchange
     
-   
-    }
+    }); //end of Fetch
+    } //end main
+  
 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
   window.onload = () => main(HYF_REPOS_URL);

@@ -9,7 +9,8 @@ img{
   margin: 10px; 
   padding: 25px;
   width: 150px; 
-  float: center;
+  display: flex;
+  justify-content: center;
 
 }
 
@@ -33,13 +34,7 @@ img{
     flex-wrap: wrap;
     border: 2px solid gray;
     background-color: darkslateblue;
-  }
-
-  .contributorsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    border: 2px solid gray;
-    background-color: darkslateblue;
+    clear: both;
   }
   
   .card {
@@ -47,23 +42,46 @@ img{
     border: 2px solid gray;
     background-color: white;
     color: black;
+    display: flex;
+    justify-content: left;
+    font-size: 20px;
   }
   .contributorsCard {
     margin: 1rem;
     border: 2px solid gray;
     background-color: darkslateblue;
+    display: flex;
+    justify-content: right;
+    font-size: 20px;
+    text-align: center;
   }
   .card:hover {
     background-color: pink;
   }
+  .header{
+    float: center;
+    clear: both;
+  }
+  .title {
+    font-size: 3rem;
+    text-align: center;
+  }
 
   .subtitle {
-      color: white;   
+      color: white;  
       margin: 1rem;
+      font-size: 1.25rem;
+  }
+  #repoHeader {
+    float: left;
+  }
+  #contributorHeader {
+    float: right;
   }
   #mySelect{
     margin: 2rem;
-    padding: 1rem;
+    margin-top: 0;
+    padding: 1.5rem;
     font-size: 1rem;
     background-color: white;
     color: black;
