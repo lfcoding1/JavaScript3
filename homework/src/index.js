@@ -79,7 +79,14 @@
       const Index0Fork = createAndAppend ('li', ul, {text: "Number of Forks: " + forkArray[0], class: 'forksInContainer'});
       const Index0Language = createAndAppend ('li', ul, {text: "Language: "  + languageArray[0], class: 'updatedAtInContainer'});
       const Index0UpdatedAt = createAndAppend ('li', ul, {text: "Updated at: " + date, class: 'updatedAtInContainer'})
-    
+      fetchJSON('https://api.github.com/repos/HackYourFuture/' + newArray[0] + '/contributors', (err, data) => {  
+        for (let i = 0; i < data.length; i++){          
+          let Image0Link = createAndAppend('li', contributorsUl, {})
+          let contributor0Name = createAndAppend('img', Image0Link, {src: data[i].avatar_url, class: 'imageSrc'});
+          let contributor0Link = createAndAppend('a', Image0Link, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
+          let contributor0Badge = createAndAppend('li', Image0Link, {text:"Contributions: " + data[i].contributions, class: 'badge'});
+        } //end for
+      }); //end fetchJSON
      
     
       data.forEach((repo) => {  
@@ -100,10 +107,10 @@
       selectList.onchange = function(selectedIndex){
         fetchJSON('https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors', (err, data) => {  
             for (let i = 0; i < data.length; i++){          
-              let imageLink = createAndAppend('li', contributorsUl, {})
-              let contributorName = createAndAppend('img', imageLink, {src: data[i].avatar_url, class: 'imageSrc'});
-              let contributorLink = createAndAppend('a', imageLink, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
-              let contributorBadge = createAndAppend('li', imageLink, {text:"Contributions: " + data[i].contributions, class: 'badge'});
+              let ImageLink = createAndAppend('li', contributorsUl, {})
+              let contributorName = createAndAppend('img', ImageLink, {src: data[i].avatar_url, class: 'imageSrc'});
+              let contributorLink = createAndAppend('a', ImageLink, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
+              let contributorBadge = createAndAppend('li', ImageLink, {text:"Contributions: " + data[i].contributions, class: 'badge'});
             } //end for
           }); //end fetchJSON
         let repoName = createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
