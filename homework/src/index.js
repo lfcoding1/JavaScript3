@@ -10,7 +10,6 @@
         cb(null, xhr.response);
       } else {
         cb(new Error(`Network error: ${xhr.status} - ${xhr.statusText}`));
-        console.log("Hello error");
       }
     };
     xhr.onerror = () => cb(new Error('Network request failed'));
@@ -32,6 +31,7 @@
   }
       
   function main(url) {
+    const root = document.getElementById('root');   
     while (root.firstChild) {
       root.removeChild(root.firstChild);
     }
@@ -39,6 +39,7 @@
     fetchJSON( HYF_REPOS_URL, (err, data) => {
       if (err) {
         createAndAppend('div', root, { text: err.message, class: 'alert-error' });
+        createAndAppend('img', root, {id: 'catImage', src: 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6'})
       }
       let newArray = [];
       let forkArray = [];
@@ -61,7 +62,7 @@
        }
        
          
-      const root = document.getElementById('root');   
+ 
       createAndAppend('h1', root, { text: "Hack Your Future Repositories", class: 'title' });
       createAndAppend('h3', root, { text: "Select a repository:  ", class: 'subtitle'});
       const selectList = createAndAppend('select', root, {id: "mySelect" });

@@ -18,7 +18,8 @@ function main(url) {
     fetch(HYF_REPOS_URL)
         .then(response => response.json())
         .then(json => createStuff(json))
-        .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }))
+        .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }), 
+                      createAndAppend('img', root, {id: 'catImage', src: 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6'}));
   
 } //end main
 
