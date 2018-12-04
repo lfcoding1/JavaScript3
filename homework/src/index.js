@@ -30,18 +30,28 @@ function createAndAppend(name, parent, options = {}) {
   });
   return elem;
 }
-      
-function main(url) {
-  fetchJSON(HYF_REPOS_URL)
-  .then(data => createStuff(data))
-  .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }), 
-                createAndAppend('img', root, {id: 'catImage', src: 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6'}));
+let catsrc = 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6';
+
+async function main(url) {
+  try {
+    let data = await fetchJSON(url)
+    await renderContainer(data)
+  } catch(error) {
+    renderError(error);
+  } // end catch
   } //end main
 
-function createStuff(data){
-  fetchJSON('https://api.github.com/repos/HackYourFuture/alumni/contributors')
-  .then(data => createStuff2(data))
-
+function renderContainer(data){
+    async function get0API(url){
+      try{
+        let data = await fetchJSON(index0API)
+        await renderIndex0(data) 
+        } catch(error) {
+          renderError(error);
+        }  
+    } //end asyn function
+  
+  get0API(index0API)
   let newArray = [];
   let forkArray = [];
   let languageArray = [];
@@ -84,7 +94,7 @@ function createStuff(data){
   const Index0Language = createAndAppend ('li', ul, {text: "Language: "  + languageArray[0], class: 'updatedAtInContainer'});
   const Index0UpdatedAt = createAndAppend ('li', ul, {text: "Updated at: " + date, class: 'updatedAtInContainer'})
                                              
-  function createStuff2(data){
+  function renderIndex0(data){
     for (let i = 0; i < data.length; i++){          
       let Image0Link = createAndAppend('li', contributorsUl, {})
       let contributor0Name = createAndAppend('img', Image0Link, {src: data[i].avatar_url, class: 'imageSrc'});
@@ -108,9 +118,17 @@ function createStuff(data){
   } //end removeNodes
                         
   selectList.onchange = function(selectedIndex){
-    fetchJSON('https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors')
-      .then(data => createStuff3(data))
-                         
+    let contributorAPI = 'https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors'
+    async function getAPI(url){
+      try{
+        let data = await fetchJSON(contributorAPI)
+        await renderContributors(data) 
+      } catch(error) {
+        this.renderError(error);
+      }  
+  }
+  
+  getAPI(contributorAPI);
   let repoName = createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
   createAndAppend('a', repoName, { text: newArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
   createAndAppend('li', ul, {text: "Description: " + descriptionArray[this.selectedIndex], class: 'descriptionInContainer'});
@@ -124,16 +142,25 @@ function createStuff(data){
   }// end createStuff2
   } //end createStuff
 
-  function createStuff3(data){
+  function renderContributors(data){
+  
     for (let i = 0; i < data.length; i++){          
       let ImageLink = createAndAppend('li', contributorsUl, {})
       let contributorName = createAndAppend('img', ImageLink, {src: data[i].avatar_url, class: 'imageSrc'});
       let contributorLink = createAndAppend('a', ImageLink, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
       let contributorBadge = createAndAppend('li', ImageLink, {text:"Contributions: " + data[i].contributions, class: 'badge'});
     } //end for
-  }//end createStuff3
+  }//end renderContributors
+
+  function renderError(err) {
+    let catsrc = 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6';
+    createAndAppend('div', root, { text: err.message, class: 'alert-error' }), 
+    createAndAppend('img', root, {id: 'catImage', src: catsrc});
+  }
                 
   const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+  let index0API = 'https://api.github.com/repos/HackYourFuture/alumni/contributors';
   window.onload = () => main(HYF_REPOS_URL);
                 
   }
+  

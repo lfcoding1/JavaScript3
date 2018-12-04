@@ -14,16 +14,19 @@ function createAndAppend(name, parent, options = {}) {
         });
         return elem;
 }    
-function main(url) {
-    fetch(HYF_REPOS_URL)
-        .then(response => response.json())
-        .then(json => createStuff(json))
-        .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }), 
-                      createAndAppend('img', root, {id: 'catImage', src: 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6'}));
-  
+
+async function main(url) {
+    try{
+        let response = await fetch(HYF_REPOS_URL);
+        const data = await response.json()
+        await createStuff(data)
+    } catch(err) {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' }), 
+        createAndAppend('img', root, {id: 'catImage', src: 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6'});
+    }
 } //end main
 
-function createStuff(data){
+async function createStuff(data){
     let newArray = [];
     let forkArray = [];
     let languageArray = [];
@@ -68,10 +71,16 @@ function createStuff(data){
     const Index0UpdatedAt = createAndAppend ('li', ul, {text: "Updated at: " + date, class: 'updatedAtInContainer'})
         
     fetch('https://api.github.com/repos/HackYourFuture/' + newArray[0] + '/contributors')
-        .then(response =>response.json())
-        .then(json => createStuff2(json))
-        .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }))
-        
+    try {
+        let response = await fetch('https://api.github.com/repos/HackYourFuture/' + newArray[0] + '/contributors')
+        let data = await response.json()
+        await createStuff2(data)
+    }catch(err) {
+        createAndAppend('div', root, { text: err.message, class: 'alert-error' }), 
+        createAndAppend('img', root, {id: 'catImage', src: 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6'});
+    } //end catch
+
+
     function createStuff2(data){
         for (let i = 0; i < data.length; i++){          
             let Image0Link = createAndAppend('li', contributorsUl, {})
@@ -97,12 +106,17 @@ function createStuff(data){
             }
         } //end removeNodes
         
-        selectList.onchange = function(selectedIndex){
+        selectList.onchange = async function(selectedIndex){
           fetch('https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors')
-            .then(response =>response.json())
-            .then(json => createStuff3(json))
-            .catch(err => createAndAppend('div', root, { text: err.message, class: 'alert-error' }))
-          
+          try {
+              let response = await fetch('https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors')
+              let data = await response.json()
+              await createStuff3(data)
+          }catch (err) {
+            createAndAppend('div', root, { text: err.message, class: 'alert-error' }), 
+            createAndAppend('img', root, {id: 'catImage', src: 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6'});
+          } //end catch
+
           function createStuff3(data){
               for (let i = 0; i < data.length; i++){          
                 let ImageLink = createAndAppend('li', contributorsUl, {})
