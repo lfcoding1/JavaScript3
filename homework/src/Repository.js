@@ -15,20 +15,6 @@ class Repository {
   renderContainer(data) {
 
   }
-
-  /**
-   * Returns an array of contributors as a promise
-   */
-  fetchContributors() {
-    return Util.fetchJSON(this.data.contributors_url);
-  }
-
-  /**
-   * Returns the name of the repository
-   */
-  name() {
-    return this.data.name;
-  } //end name
 } //end Repository
 
 
@@ -92,12 +78,10 @@ function renderContainer(data){
       let contributor0Link = Util.createAndAppend('a', Image0Link, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
       let contributor0Badge = Util.createAndAppend('li', Image0Link, {text:"Contributions: " + data[i].contributions, class: 'badge'});
     } //end for
-                                     
-  data.forEach((repo) => {  
+                                       
     for (let i = 0; i < newArray.length; i++) {
       Util.createAndAppend('option', selectList, {id: "myOption", value: i, text: newArray[i]});
     }
-  });
                       
   function removeNodes(container){
     while (ul.hasChildNodes()) {
@@ -132,5 +116,20 @@ function renderContainer(data){
   }// end of onchange
   }// end renderIndex0
   } //end renderContainer
+
+
+  /**
+   * Returns an array of contributors as a promise
+   */
+  /*fetchContributors() {
+    return Util.fetchJSON(this.data.contributors_url);
+  }
+
+  /**
+   * Returns the name of the repository
+   
+  name() {
+    return this.data.name;}*/
+   //end name 
 
   

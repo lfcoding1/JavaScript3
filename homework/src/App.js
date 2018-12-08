@@ -15,7 +15,7 @@ class App {
     const root = document.getElementById('root');
     try {
       const data = await Util.fetchJSON(url);
-      this.data = data.map(repo => new Repository(repo));
+      //this.data = data.map(repo => new Repository(repo));
       await renderContainer(data)
     } catch (error) {
       this.renderError(error);
@@ -51,7 +51,7 @@ class App {
    * repo and its contributors as HTML elements in the DOM.
    * @param {number} index The array index of the repository.
    */
-  async fetchContributorsAndRender(index) {
+  /* async fetchContributorsAndRender(index) {
     try {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
@@ -72,7 +72,7 @@ class App {
     } catch (error) {
       this.renderError(error);
     }
-  }
+  } */
 
   /**
    * Render an error to the DOM.

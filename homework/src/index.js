@@ -34,14 +34,14 @@ let catsrc = 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200
 
 async function main(url) {
   try {
-    let data = await fetchJSON(url)
-    await renderContainer(data)
+    let repos = await fetchJSON(url)
+    await renderContainer(repos)
   } catch(error) {
     renderError(error);
   } // end catch
   } //end main
 
-function renderContainer(data){
+function renderContainer(repos){
     async function get0API(url){
       try{
         let data = await fetchJSON(index0API)
@@ -59,23 +59,24 @@ function renderContainer(data){
   let updatedAt = [];
   let htmlArray = [];
   const root = document.getElementById('root'); 
-  data.sort((a, b) => (a.name).localeCompare(b.name));
+  repos.sort((a, b) => (a.name).localeCompare(b.name));
                         
-  for (let i = 0; i < data.length; i++){
-    newArray.push(data[i].name);
-    descriptionArray.push(data[i].description);
-    forkArray.push(data[i].forks);
-    languageArray.push(data[i].language);
-    updatedAt.push(data[i].updated_at);
-    htmlArray.push(data[i].html_url); 
-    var date =  new Date ((data[i].updated_at));
+  for (let i = 0; i < repos.length; i++){
+    newArray.push(repos[i].name);
+    descriptionArray.push(repos[i].description);
+    forkArray.push(repos[i].forks);
+    languageArray.push(repos[i].language);
+    updatedAt.push(repos[i].updated_at);
+    htmlArray.push(repos[i].html_url); 
+    var date =  new Date ((repos[i].updated_at));
     date = date.toUTCString();
     }
+  
                                                 
   while (root.firstChild) {
     root.removeChild(root.firstChild);
   }
-                    
+                  
   createAndAppend('h1', root, { text: "Hack Your Future Repositories", class: 'title' });
   createAndAppend('h3', root, { text: "Select a repository:  ", class: 'subtitle'});
   const selectList = createAndAppend('select', root, {id: "mySelect" });
@@ -101,12 +102,11 @@ function renderContainer(data){
       let contributor0Link = createAndAppend('a', Image0Link, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
       let contributor0Badge = createAndAppend('li', Image0Link, {text:"Contributions: " + data[i].contributions, class: 'badge'});
     } //end for
-                                     
-  data.forEach((repo) => {  
+ 
     for (let i = 0; i < newArray.length; i++) {
-      createAndAppend('option', selectList, {id: "myOption", value: i, text: newArray[i]});
+      createAndAppend('option', selectList, {id: "myOption",  value: i, text: newArray[i]});
     }
-  });
+ 
                       
   function removeNodes(container){
     while (ul.hasChildNodes()) {
@@ -121,8 +121,8 @@ function renderContainer(data){
     let contributorAPI = 'https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors'
     async function getAPI(url){
       try{
-        let data = await fetchJSON(contributorAPI)
-        await renderContributors(data) 
+        let dataContributor = await fetchJSON(contributorAPI)
+        await renderContributors(dataContributor) 
       } catch(error) {
         this.renderError(error);
       }  
@@ -142,13 +142,13 @@ function renderContainer(data){
   }// end createStuff2
   } //end createStuff
 
-  function renderContributors(data){
+  function renderContributors(dataContributor){
   
-    for (let i = 0; i < data.length; i++){          
+    for (let i = 0; i < dataContributor.length; i++){          
       let ImageLink = createAndAppend('li', contributorsUl, {})
-      let contributorName = createAndAppend('img', ImageLink, {src: data[i].avatar_url, class: 'imageSrc'});
-      let contributorLink = createAndAppend('a', ImageLink, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
-      let contributorBadge = createAndAppend('li', ImageLink, {text:"Contributions: " + data[i].contributions, class: 'badge'});
+      let contributorName = createAndAppend('img', ImageLink, {src: dataContributor[i].avatar_url, class: 'imageSrc'});
+      let contributorLink = createAndAppend('a', ImageLink, {text: dataContributor[i].login, target: "_blank", href: dataContributor[i].html_url, id: 'link'});
+      let contributorBadge = createAndAppend('li', ImageLink, {text:"Contributions: " + dataContributor[i].contributions, class: 'badge'});
     } //end for
   }//end renderContributors
 
