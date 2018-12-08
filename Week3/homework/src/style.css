@@ -140,14 +140,24 @@ img{
   text-align: center;
 }
 
-  @media screen and (min-width: 600px) {
-    .card {
-      flex: 1 1 calc(50% - 2rem);
+  @media screen and (max-width: 600px) {
+    .card, .header {
+      flex: 1 1 calc(33% - 2rem);
     }
+    #contributorHeader{
+      display: none;
+    }
+    #mySelect, #myOption {
+      width: 300px;
+    }
+    
   }
   
-  @media screen and (min-width: 900px) {
-    .card {
+  @media screen and (min-width: 600px) {
+    .card, .header {
       flex: 1 1 calc(33% - 2rem);
+    }
+    #mySelect, #myOption {
+      width: 400px;
     }
   }

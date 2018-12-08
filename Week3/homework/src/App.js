@@ -12,22 +12,19 @@ class App {
    * @param {string} url The GitHub URL for obtaining the organization's repositories.
    */
   async initialize(url) {
-    // Add code here to initialize your app
-    // 1. Create the fixed HTML elements of your page
-    // 2. Make an initial XMLHttpRequest using Util.fetchJSON() to populate your <select> element
-
     const root = document.getElementById('root');
-    // ...
-
     try {
-      // ...
-      const repos = await Util.fetchJSON(url);
-      this.repos = repos.map(repo => new Repository(repo));
-      // ...
+      const data = await Util.fetchJSON(url);
+      let repo = new Repository(data); 
+      let contributor = new Contributor(data);
+      await renderContainer(data);
     } catch (error) {
       this.renderError(error);
     }
+    
+    
   }
+
 
   /**
    * Removes all child elements from a container element
@@ -44,7 +41,7 @@ class App {
    * repo and its contributors as HTML elements in the DOM.
    * @param {number} index The array index of the repository.
    */
-  async fetchContributorsAndRender(index) {
+  /* async fetchContributorsAndRender(index) {
     try {
       const repo = this.repos[index];
       const contributors = await repo.fetchContributors();
@@ -65,17 +62,25 @@ class App {
     } catch (error) {
       this.renderError(error);
     }
-  }
+  } */
 
   /**
    * Render an error to the DOM.
    * @param {Error} error An Error object describing the error.
    */
-  renderError(error) {
-    // Replace this comment with your code
+  
+  renderError(err) {
+    let catsrc = 'https://us.123rf.com/450wm/photodeti/photodeti1702/photodeti170200132/72587923-cat-holding-stop-sign-isolated-on-white-background-.jpg?ver=6';
+    Util.createAndAppend('div', root, { text: err.message, class: 'alert-error' }), 
+    Util.createAndAppend('img', root, {id: 'catImage', src: catsrc, class: 'alert-error', alt: 'error image of cat'});
   }
+
+
+  
 }
 
 const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
+let index0API = 'https://api.github.com/repos/HackYourFuture/alumni/contributors';
+
 
 window.onload = () => new App(HYF_REPOS_URL);

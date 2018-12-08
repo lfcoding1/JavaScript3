@@ -12,7 +12,6 @@ class Contributor {
    * Render the contributor info to the DOM.
    * @param {HTMLElement} contributorList The parent element in which to render the contributor.
   */
-  render(contributorList) {
-    // Replace this comment with your code
-  }
+  
 }
+

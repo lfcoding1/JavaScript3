@@ -6,15 +6,14 @@
 class Repository {
   constructor(data) {
     this.data = data;
+    renderContainer(data)
   } //end constructor
 
   /**
    * Render the repository info to the DOM.
    * @param {HTMLElement} parent The parent element in which to render the repository.
    */
-  renderContainer(data) {
-
-  }
+   
 } //end Repository
 
 
@@ -82,7 +81,7 @@ function renderContainer(data){
     for (let i = 0; i < newArray.length; i++) {
       Util.createAndAppend('option', selectList, {id: "myOption", value: i, text: newArray[i]});
     }
-                      
+                
   function removeNodes(container){
     while (ul.hasChildNodes()) {
       ul.removeChild(ul.firstChild);
@@ -116,6 +115,15 @@ function renderContainer(data){
   }// end of onchange
   }// end renderIndex0
   } //end renderContainer
+
+  function renderContributors(data){
+    for (let i = 0; i < data.length; i++){          
+      let ImageLink = Util.createAndAppend('li', contributorsUl, {})
+      let contributorName = Util.createAndAppend('img', ImageLink, {src: data[i].avatar_url, class: 'imageSrc', alt: 'Image of Contributor Icon'});
+      let contributorLink = Util.createAndAppend('a', ImageLink, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
+      let contributorBadge = Util.createAndAppend('li', ImageLink, {text:"Contributions: " + data[i].contributions, class: 'badge'});
+    } //end for
+  }//end renderContributors (called in Repository.js)
 
 
   /**

@@ -15,24 +15,14 @@ class App {
     const root = document.getElementById('root');
     try {
       const data = await Util.fetchJSON(url);
-      //this.data = data.map(repo => new Repository(repo));
-      await renderContainer(data)
+      let repo = new Repository(data); 
+      let contributor = new Contributor(data);
+      await renderContainer(data);
     } catch (error) {
       this.renderError(error);
     }
     
-    function renderIndex0(data){                    
-    selectList.onchange = function(selectedIndex){                          
-    let repoName = Util.createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
-    Util.createAndAppend('a', repoName, { text: newArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
-    Util.createAndAppend('li', ul, {text: "Description: " + descriptionArray[this.selectedIndex], class: 'descriptionInContainer'});
-    Util.createAndAppend('li', ul, { text: "Number of Forks: " + forkArray[this.selectedIndex], class: 'forksInContainer'});
-    Util.createAndAppend('li', ul, { text: "Language: " + languageArray[this.selectedIndex], class: 'languageInContainer'});
-    let dates = new Date (updatedAt[this.selectedIndex]);
-    dates = dates.toUTCString();
-    Util.createAndAppend('li', ul, {text: "Updated at: " + dates, class: 'updatedAtInContainer'});               
-    }// end of onchange
-    }// end renderIndex0
+    
   }
 
 
@@ -84,6 +74,9 @@ class App {
     Util.createAndAppend('div', root, { text: err.message, class: 'alert-error' }), 
     Util.createAndAppend('img', root, {id: 'catImage', src: catsrc, class: 'alert-error', alt: 'error image of cat'});
   }
+
+
+  
 }
 
 const HYF_REPOS_URL = 'https://api.github.com/orgs/HackYourFuture/repos?per_page=100';
