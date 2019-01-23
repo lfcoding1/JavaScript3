@@ -108,39 +108,39 @@ function renderContainer(repos){
       }
  
                       
-  function removeNodes(container){
-      while (ul.hasChildNodes()) {
+    function removeNodes(container){
+        while (ul.hasChildNodes()) {
           ul.removeChild(ul.firstChild);
-      }
-      while (contributorsUl.hasChildNodes()) {
+        }
+        while (contributorsUl.hasChildNodes()) {
           contributorsUl.removeChild(contributorsUl.firstChild);
-      }
-  } //end removeNodes
+        }
+    } //end removeNodes
                         
-  selectList.onchange = function(selectedIndex){
-      let contributorAPI = 'https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors'
-      async function getAPI(url){
+    selectList.onchange = function(selectedIndex){
+        let contributorAPI = 'https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors'
+        async function getAPI(url){
           try{
-              let dataContributor = await fetchJSON(contributorAPI)
-          await renderContributors(dataContributor) 
+            let dataContributor = await fetchJSON(contributorAPI)
+            await renderContributors(dataContributor) 
           } catch(error) {
-              this.renderError(error);
+            this.renderError(error);
           }  
       }
   
-  getAPI(contributorAPI);
-  let repoName = createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
-  createAndAppend('a', repoName, { text: newArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
-  createAndAppend('li', ul, {text: "Description: " + descriptionArray[this.selectedIndex], class: 'descriptionInContainer'});
-  createAndAppend('li', ul, { text: "Number of Forks: " + forkArray[this.selectedIndex], class: 'forksInContainer'});
-  createAndAppend('li', ul, { text: "Language: " + languageArray[this.selectedIndex], class: 'languageInContainer'});
-  let dates = new Date (updatedAt[this.selectedIndex]);
-  dates = dates.toUTCString();
-  createAndAppend('li', ul, {text: "Updated at: " + dates, class: 'updatedAtInContainer'});
+    getAPI(contributorAPI);
+    let repoName = createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});
+    createAndAppend('a', repoName, { text: newArray[this.selectedIndex], id: 'linkInContainer', target: "_blank", href: htmlArray[this.selectedIndex]});
+    createAndAppend('li', ul, {text: "Description: " + descriptionArray[this.selectedIndex], class: 'descriptionInContainer'});
+    createAndAppend('li', ul, { text: "Number of Forks: " + forkArray[this.selectedIndex], class: 'forksInContainer'});
+    createAndAppend('li', ul, { text: "Language: " + languageArray[this.selectedIndex], class: 'languageInContainer'});
+    let dates = new Date (updatedAt[this.selectedIndex]);
+    dates = dates.toUTCString();
+    createAndAppend('li', ul, {text: "Updated at: " + dates, class: 'updatedAtInContainer'});
                   
-  }// end of onchange
-  }// end createStuff2
-  } //end createStuff
+    }// end of onchange
+    }// end renderIndex0
+  } //end renderContainer
 
   function renderContributors(dataContributor){
       for (let i = 0; i < dataContributor.length; i++){          
