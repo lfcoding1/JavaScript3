@@ -4,9 +4,9 @@
 
 // eslint-disable-next-line no-unused-vars
 class Contributor {
-  constructor(data) {
-    this.data = data;
-  }
+    constructor(data) {
+        this.data = data;
+    }
 
   /**
    * Render the contributor info to the DOM.

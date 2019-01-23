@@ -4,10 +4,10 @@
 
 // eslint-disable-next-line no-unused-vars
 class Repository {
-  constructor(data) {
-    this.data = data;
-    renderContainer(data)
-  } //end constructor
+    constructor(data) {
+        this.data = data;
+        renderContainer(data);
+    } //end constructor
 
   /**
    * Render the repository info to the DOM.
@@ -18,14 +18,14 @@ class Repository {
 
 
 function renderContainer(data){
-  async function get0API(url){
-    try{
-      let data = await Util.fetchJSON(index0API)
-      await renderIndex0(data) 
-      } catch(error) {
-        this.renderError(error);
+    async function get0API(url){
+        try{
+          let data = await Util.fetchJSON(index0API)
+          await renderIndex0(data) 
+        } catch(error) {
+          this.renderError(error);
       }  
-  } //end asyn function
+    } //end asyn function
 
   get0API(index0API)
   let newArray = [];
@@ -38,18 +38,18 @@ function renderContainer(data){
   data.sort((a, b) => (a.name).localeCompare(b.name));
                         
   for (let i = 0; i < data.length; i++){
-    newArray.push(data[i].name);
-    descriptionArray.push(data[i].description);
-    forkArray.push(data[i].forks);
-    languageArray.push(data[i].language);
-    updatedAt.push(data[i].updated_at);
-    htmlArray.push(data[i].html_url); 
-    var date =  new Date ((data[i].updated_at));
-    date = date.toUTCString();
-    }
+      newArray.push(data[i].name);
+      descriptionArray.push(data[i].description);
+      forkArray.push(data[i].forks);
+      languageArray.push(data[i].language);
+      updatedAt.push(data[i].updated_at);
+      htmlArray.push(data[i].html_url); 
+      var date =  new Date ((data[i].updated_at));
+      date = date.toUTCString();
+  }
                                                 
   while (root.firstChild) {
-    root.removeChild(root.firstChild);
+      root.removeChild(root.firstChild);
   }
                     
   Util.createAndAppend('h1', root, { text: "Hack Your Future Repositories", class: 'title', role:'banner' });
@@ -71,36 +71,36 @@ function renderContainer(data){
   const Index0UpdatedAt = Util.createAndAppend ('li', ul, {text: "Updated at: " + date, class: 'updatedAtInContainer'})
                                              
   function renderIndex0(data){
-    for (let i = 0; i < data.length; i++){          
-      let Image0Link = Util.createAndAppend('li', contributorsUl, {})
-      let contributor0Name = Util.createAndAppend('img', Image0Link, {src: data[i].avatar_url, class: 'imageSrc', alt: 'Image Icon of Contributor'});
-      let contributor0Link = Util.createAndAppend('a', Image0Link, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
-      let contributor0Badge = Util.createAndAppend('li', Image0Link, {text:"Contributions: " + data[i].contributions, class: 'badge'});
-    } //end for
+      for (let i = 0; i < data.length; i++){          
+          let Image0Link = Util.createAndAppend('li', contributorsUl, {})
+          let contributor0Name = Util.createAndAppend('img', Image0Link, {src: data[i].avatar_url, class: 'imageSrc', alt: 'Image Icon of Contributor'});
+          let contributor0Link = Util.createAndAppend('a', Image0Link, {text: data[i].login, target: "_blank", href: data[i].html_url, id: 'link'});
+          let contributor0Badge = Util.createAndAppend('li', Image0Link, {text:"Contributions: " + data[i].contributions, class: 'badge'});
+      } //end for
                                        
-    for (let i = 0; i < newArray.length; i++) {
-      Util.createAndAppend('option', selectList, {id: "myOption", value: i, text: newArray[i]});
-    }
+      for (let i = 0; i < newArray.length; i++) {
+          Util.createAndAppend('option', selectList, {id: "myOption", value: i, text: newArray[i]});
+      }
                 
   function removeNodes(container){
-    while (ul.hasChildNodes()) {
-      ul.removeChild(ul.firstChild);
-    }
-    while (contributorsUl.hasChildNodes()) {
-      contributorsUl.removeChild(contributorsUl.firstChild);
-    }
+      while (ul.hasChildNodes()) {
+          ul.removeChild(ul.firstChild);
+      }
+      while (contributorsUl.hasChildNodes()) {
+          contributorsUl.removeChild(contributorsUl.firstChild);
+      }
   } //end removeNodes
                         
   selectList.onchange = function(selectedIndex){
-    let contributorAPI = 'https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors'
-    async function getAPI(url){
-      try{
-        let data = await Util.fetchJSON(contributorAPI)
-        await renderContributors(data) 
-      } catch(error) {
-        this.renderError(error);
-      }  
-  } //end async getAPI
+      let contributorAPI = 'https://api.github.com/repos/HackYourFuture/' + newArray[this.selectedIndex] + '/contributors'
+      async function getAPI(url){
+          try{
+          let data = await Util.fetchJSON(contributorAPI)
+          await renderContributors(data) 
+        } catch(error) {
+          this.renderError(error);
+        }  
+      } //end async getAPI
          
   getAPI(contributorAPI);
   let repoName = Util.createAndAppend('li', ul, { text: "Repository: ", class: 'nameInContainer', function: removeNodes()});

@@ -40,31 +40,7 @@ class App {
    * Fetch contributor information for the selected repository and render the
    * repo and its contributors as HTML elements in the DOM.
    * @param {number} index The array index of the repository.
-   */
-  /* async fetchContributorsAndRender(index) {
-    try {
-      const repo = this.repos[index];
-      const contributors = await repo.fetchContributors();
-
-      const container = document.getElementById('container');
-      this.clearContainer(container);
-
-      const leftDiv = Util.createAndAppend('div', container);
-      const rightDiv = Util.createAndAppend('div', container);
-
-      const contributorList = Util.createAndAppend('ul', rightDiv);
-
-      repo.render(leftDiv);
-
-      contributors
-        .map(contributor => new Contributor(contributor))
-        .forEach(contributor => contributor.render(contributorList));
-    } catch (error) {
-      this.renderError(error);
-    }
-  } */
-
-  /**
+   
    * Render an error to the DOM.
    * @param {Error} error An Error object describing the error.
    */
