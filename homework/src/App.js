@@ -16,8 +16,9 @@ class App {
     try {
       const data = await Util.fetchJSON(url);
       let repo = new Repository(data); 
+      repo.renderContainer(data);
       let contributor = new Contributor(data);
-      await renderContainer(data);
+     /// await renderContainer(data);
     } catch (error) {
       this.renderError(error);
     }
